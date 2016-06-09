@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+
+
+<head>
+	<link href="calendar.css" rel="stylesheet" type="text/css" />
+	<link href="ccc.css" rel="stylesheet" type="text/css" />
+	<script src="cal.js"></script>
+	<script src="events.js"></script>
+	<script src="modernizr-1.5.js"></script>
+	<script>
+		function isLeapYear(year)
+		{
+		
+			var leapYear;
+			if (year % 4 == 0)
+				if (year % 100 == 0)
+					if (year % 400 == 0)
+						leapYear = true;
+					else
+						leapYear = false;
+				else
+					leapYear = true;
+			else
+				leapYear = false;
+			
+			return leapYear;
+		}
+		
+		function daysInMonth(calendarDay){
+			var dayCount = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+			var thisYear = calendarDay.getFullYear();
+			var thisMonth = calendarDay.getMonth();
+		
+			if (isLeapYear(thisYear))
+				dayCount[1] = 29;
+			
+			return dayCount[thisMonth];
+		}
+		
+		function writeCalTitle(calendarDay){
+			var monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+			
+			var thisMonth = calendarDay.getMonth();
+			var thisYear = calendarDay.getFullYear();
+			
+			document.write("<tr>");
+			document.write("<th id ='calendar_head' colspan = '7'>");
+			document.write(monthName[thisMonth] + " " + thisYear);
+			document.write("</th>");
+			document.write("</tr>");
+		
+		}
+		
+		function writeDayNames(){
+			var dayName = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+			document.write("<tr>");
+			
+			for (var index = 0; index < dayName.length; index++){
+				
+				document.writeln("<th class='calendar_weekdays'>");
+				
+				if (index == 6)
+					document.write(dayName[index]);
+				
+				else
+					document.write(dayName[index]);
+								
+				
+				document.write("</th>")
+			}
+			document.writeln("</tr>");
+		}
+		
+		function writeCalendarDays(calendarDay){
+			var day = new Date(calendarDay.getFullYear(), calendarDay.getMonth(), 1);
+			var weekDay = day.getDay();
+			document.write("<tr>");
+			
+			for (var i = 0; i < weekDay; i++){
+				document.write("<td></td>");				
+			}
+			
+			var totalDays = daysInMonth(calendarDay);
+			var highlightDay = calendarDay.getDate();
+			for (var i = 1; i <= totalDays; i++){
+				day.setDate(i);
+				weekDay = day.getDay();
+				if (weekDay == 0)
+					document.write("<tr>");
+				if (i == highlightDay)
+					document.write("<td class='calendar_dates' id='calendar_today'>"+ i + dayEvent[i] + "</td>");
+				else
+					document.write("<td class='calendar_dates'>" + i + dayEvent[i] + "</td>");
+				
+				if (weekDay == 6)
+					document.write("</tr>");
+			}
+		
+		}
+		
+		function calendar(dateString){
+			if (dateString == null)			
+				calDate = new Date();
+			else
+				calDate = new Date(dateString);
+				
+			document.write("<table>");
+			writeCalTitle(calDate);
+			writeDayNames();
+			writeCalendarDays(calDate);
+			document.write("</table>");	
+		}
+
+	</script>
+
+
+</head>
+
+
+<body>
+	<script>
+		document.write("2000? " + isLeapYear(2000) + "<br />");
+		document.write("2004? " + isLeapYear(2004) + "<br />");
+		document.write("2003? " + isLeapYear(2003) + "<br />");
+		document.write("1900? " + isLeapYear(1900) + "<br />");
+
+		calendar();
+		calendar("January 1, 2017");
+		
+		document.write("<br />");
+		document.write("<br />");
+		
+					
+	</script>
+
+
+
+
+
+</body>
+
+
+</html>
